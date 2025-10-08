@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { LeaderboardEntry } from "@/lib/types";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { User } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 type LeaderboardClientProps = {
@@ -18,13 +18,6 @@ type LeaderboardClientProps = {
 
 export function LeaderboardClient({ initialData }: LeaderboardClientProps) {
     
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('');
-  };
-
   const getRankColor = (rank: number) => {
     if (rank === 1) return 'bg-amber-400 text-amber-900';
     if (rank === 2) return 'bg-slate-400 text-slate-900';
@@ -56,10 +49,9 @@ export function LeaderboardClient({ initialData }: LeaderboardClientProps) {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
-                    <Avatar>
-                      <AvatarImage src={entry.photoURL ?? undefined} />
-                      <AvatarFallback>{getInitials(entry.displayName)}</AvatarFallback>
-                    </Avatar>
+                    <div className="h-10 w-10 flex items-center justify-center rounded-full bg-muted">
+                        <User className="h-5 w-5 text-muted-foreground" />
+                    </div>
                     <span className="font-medium">{entry.displayName}</span>
                   </div>
                 </TableCell>
