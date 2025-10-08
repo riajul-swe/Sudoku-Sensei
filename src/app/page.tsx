@@ -22,7 +22,8 @@ import { solveSudokuPuzzle } from '@/ai/flows/solve-sudoku-puzzle';
 import { explainSudokuSolvingStep } from '@/ai/flows/explain-sudoku-solving-step';
 import { Award, BrainCircuit, Eraser, Lightbulb, Loader2, Play, SquarePen } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import Confetti from 'react-dom-confetti';
+import Confetti from 'react-confetti';
+import useWindowSize from 'react-use/lib/useWindowSize'
 
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
   const [explanation, setExplanation] = useState('');
   const [showExplanationDialog, setShowExplanationDialog] = useState(false);
   const [isCustomMode, setIsCustomMode] = useState(false);
+  const { width, height } = useWindowSize();
 
   const { user, loading: authLoading } = useAuth();
   const debouncedGrid = useDebounce(userGrid, 1000);
@@ -242,6 +244,7 @@ export default function Home() {
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         <div className="relative">
+          {isCompleted && <Confetti width={width} height={height} />}
           <SudokuBoard
             userGrid={userGrid}
             initialGrid={initialGrid}
@@ -250,20 +253,6 @@ export default function Home() {
             onCellClick={handleCellClick}
             isCompleted={isCompleted}
           />
-           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <Confetti active={isCompleted} config={{
-              angle: 90,
-              spread: 360,
-              startVelocity: 40,
-              elementCount: 70,
-              dragFriction: 0.12,
-              duration: 3000,
-              stagger: 3,
-              width: "10px",
-              height: "10px",
-              colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-            }}/>
-          </div>
         </div>
         <div className="w-full lg:w-auto flex flex-col gap-4">
           <NumberPad onNumberClick={handleNumberInput} />
